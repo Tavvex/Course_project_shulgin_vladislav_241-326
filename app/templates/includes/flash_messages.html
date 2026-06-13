@@ -1,0 +1,93 @@
+{% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+        <div class="flash-messages">
+            {% for category, message in messages %}
+                <div class="flash-message flash-{{ category }}">
+                    <span>{{ message }}</span>
+                    <button class="flash-close">&times;</button>
+                </div>
+            {% endfor %}
+        </div>
+    {% endif %}
+{% endwith %}
+
+<style>
+.flash-messages {
+    position: fixed;
+    top: 90px;
+    right: 20px;
+    z-index: 1100;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    max-width: 350px;
+}
+.flash-message {
+    background: white;
+    padding: 15px 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    animation: slideIn 0.3s ease;
+}
+.flash-success {
+    border-left: 4px solid #28a745;
+    background: #f0f9f0;
+    color: #155724;
+}
+.flash-error {
+    border-left: 4px solid #dc3545;
+    background: #fef0f0;
+    color: #721c24;
+}
+.flash-close {
+    background: none;
+    border: none;
+    font-size: 1.2rem;
+    cursor: pointer;
+    color: inherit;
+    opacity: 0.6;
+    margin-left: 15px;
+}
+.flash-close:hover {
+    opacity: 1;
+}
+@keyframes slideIn {
+    from {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+@media (max-width: 768px) {
+    .flash-messages {
+        top: 80px;
+        right: 10px;
+        left: 10px;
+        max-width: none;
+    }
+}
+</style>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    document.querySelectorAll('.flash-close').forEach(btn => {
+        btn.addEventListener('click', function() {
+            this.parentElement.remove();
+        });
+    });
+    
+    setTimeout(() => {
+        document.querySelectorAll('.flash-message').forEach(msg => {
+            msg.style.opacity = '0';
+            msg.style.transform = 'translateX(100%)';
+            setTimeout(() => msg.remove(), 300);
+        });
+    }, 5000);
+});
+</script>

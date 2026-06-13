@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Админ-панель | Мошурова Полина</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/admin.css') }}">
+</head>
+<body style="margin: 0; padding: 0; background: #f5f5f5;">
+    <div class="admin-container">
+        <div class="admin-sidebar">
+            <div class="sidebar-header">
+                <h2>Админ-панель</h2>
+                <p>Мошурова Полина</p>
+            </div>
+            <div class="sidebar-nav">
+                <a href="{{ url_for('admin.dashboard') }}" class="{% if request.endpoint == 'admin.dashboard' %}active{% endif %}">
+                    <i class="fas fa-tachometer-alt"></i> <span>Дашборд</span>
+                </a>
+                <a href="{{ url_for('admin.works') }}" class="{% if request.endpoint == 'admin.works' %}active{% endif %}">
+                    <i class="fas fa-palette"></i> <span>Работы</span>
+                </a>
+                <a href="{{ url_for('admin.reviews') }}" class="{% if request.endpoint == 'admin.reviews' %}active{% endif %}">
+                    <i class="fas fa-star"></i> <span>Отзывы</span>
+                </a>
+                <a href="{{ url_for('admin.charity') }}" class="{% if request.endpoint == 'admin.charity' %}active{% endif %}">
+                    <i class="fas fa-heart"></i> <span>Благотворительность</span>
+                </a>
+                <a href="{{ url_for('admin.users') }}" class="{% if request.endpoint == 'admin.users' %}active{% endif %}">
+                    <i class="fas fa-users"></i> <span>Пользователи</span>
+                </a>
+                <a href="{{ url_for('auth.logout') }}">
+                    <i class="fas fa-sign-out-alt"></i> <span>Выход</span>
+                </a>
+            </div>
+        </div>
+
+        <div class="admin-main">
+            <div class="admin-header">
+                <h1>{% block admin_title %}Панель управления{% endblock %}</h1>
+                <div>Вы вошли как <strong>{{ current_user.username }}</strong></div>
+            </div>
+
+            <div class="flash-messages">
+                {% with messages = get_flashed_messages(with_categories=true) %}
+                    {% for category, message in messages %}
+                        <div class="flash-message flash-{{ category }}">{{ message }}</div>
+                    {% endfor %}
+                {% endwith %}
+            </div>
+
+            <div class="admin-content">
+                {% block admin_content %}{% endblock %}
+            </div>
+        </div>
+    </div>
+
+    <script>
+        setTimeout(() => {
+            document.querySelectorAll('.flash-message').forEach(msg => {
+                msg.style.transition = 'opacity 0.3s';
+                msg.style.opacity = '0';
+                setTimeout(() => { if (msg.parentNode) msg.remove(); }, 300);
+            });
+        }, 5000);
+    </script>
+</body>
+</html>

@@ -1,0 +1,91 @@
+{% extends "base.html" %}
+
+{% block title %}Обо мне | Мошурова Полина{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/about.css') }}">
+{% endblock %}
+
+{% block content %}
+<section class="about-section">
+    <div class="container">
+        <div class="page-header">
+            <h1 class="page-title">Мошурова Полина</h1>
+            <p class="page-subtitle">Художник-живописец</p>
+        </div>
+
+        <div class="about-single">
+            <div class="about-photo-single">
+                <div class="photo-frame">
+                    <img src="{{ url_for('static', filename='images/hero/author.jpg') }}" alt="Мошурова Полина">
+                    <div class="photo-decoration"></div>
+                </div>
+            </div>
+
+            <div class="info-block-single">
+                <h2><i class="fas fa-heart"></i> Основные направления</h2>
+                <div class="directions-grid">
+                    <span class="direction-item"><i class="fas fa-mountain"></i> Пейзажи</span>
+                    <span class="direction-item"><i class="fas fa-apple-alt"></i> Натюрморты</span>
+                    <span class="direction-item"><i class="fas fa-user"></i> Портреты</span>
+                    <span class="direction-item"><i class="fas fa-feather-alt"></i> Композиции на заказ</span>
+                </div>
+            </div>
+
+            <div class="info-block-single">
+                <h2><i class="fas fa-palette"></i> Обо мне</h2>
+                <div style="text-indent: 50px;">
+                    <p>Привет! Меня зовут Мошурова Полина, я начинающий художник-живописец. Сейчас обучаюсь на втором курсе станковой живописи в РГУ им. Косыгина. Мой главный инструмент — масло.</p>
+                    <p>Для меня живопись — это возможность остановить мгновение, наполнить его светом, воздухом и той неуловимой энергией, которая делает картину "живой". Я работаю в традициях реалистической школы, но всегда ищу свою уникальную интонацию.</p>
+                    <p>Меня вдохновляют богатство фактур масляной живописи, игра рефлексов и глубина цвета. Каждая моя картина — это результат долгого пути: от первого мазка до финального лака.</p>
+                </div>
+            </div>
+
+            <div class="info-block-single">
+                <h2><i class="fas fa-graduation-cap"></i> Образование и техника</h2>
+                <div class="experience-item">
+                    <div class="exp-year">2024 — н.в.</div>
+                    <div class="exp-content">
+                        <h3>РГУ им. А. Н. Косыгина</h3>
+                        <p>Станковая живопись, 2 курс</p>
+                    </div>
+                </div>
+                <div class="techniques-grid" style="margin-top: 20px; display: flex; justify-content: center;">
+                    <div class="technique-item" style="max-width: 350px; width: 100%;">
+                        <div class="tech-icon"><i class="fas fa-oil-can"></i></div>
+                        <h3>Масляная живопись</h3>
+                        <p>Работаю с маслом на холсте, используя классические техники многослойной живописи.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="info-block-single">
+                <h2><i class="fas fa-trophy"></i> Достижения</h2>
+                <div class="achievement-with-image">
+                    <div class="achievement-image">
+                        <img src="{{ url_for('static', filename='images/hero/Art_is_timeless_2025.jpg') }}" alt="Грамота Гран-при">
+                    </div>
+                    <div class="achievement-text">
+                        <h3>Гран-при выставки "Искусство вне времени"</h3>
+                        <p>2025 год — работа "Перерождение" получила высшую награду выставки.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="quote-single">
+                <i class="fas fa-quote-left"></i>
+                <i class="fas fa-quote-right"></i>
+                <p>Я стремлюсь к тому, чтобы мои работы не просто украшали стены, но становились частью истории дома, его душой и источником вдохновения.</p>
+            </div>
+        </div>
+
+        <div class="about-cta">
+            <div class="cta-content">
+                <h2>Заинтересованы в сотрудничестве?</h2>
+                <p>Готова обсудить проект, заказать картину или просто поговорить об искусстве</p>
+                <a href="#footer" class="btn btn-primary">Связаться со мной</a>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

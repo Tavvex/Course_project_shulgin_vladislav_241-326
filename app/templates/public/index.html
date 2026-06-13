@@ -1,0 +1,86 @@
+{% extends "base.html" %}
+
+{% block title %}Мошурова Полина | Художник{% endblock %}
+
+{% block content %}
+<section class="hero">
+    <div class="hero-slider">
+        <div class="slide active" style="background-image: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url('{{ url_for('static', filename='images/portfolio/heavens_corner_20-35.jpg') }}');">
+            <div class="container">
+                <div class="hero-content">
+                    <h1 class="hero-title">Искусство, которое находит отклик</h1>
+                    <p class="hero-subtitle">Картины, наполненные светом, эмоциями и смыслом</p>
+                    <div class="hero-buttons">
+                        <a href="{{ url_for('public.portfolio') }}" class="btn btn-primary">Смотреть работы</a>
+                        <a href="{{ url_for('public.shop') }}" class="btn btn-secondary">Узнать цены</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="slide" style="background-image: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url('{{ url_for('static', filename='images/portfolio/april_25-35.jpg') }}');">
+            <div class="container">
+                <div class="hero-content">
+                    <h1 class="hero-title">Каждая картина — это история</h1>
+                    <p class="hero-subtitle">Погрузитесь в мир цвета, фактуры и эмоций</p>
+                    <div class="hero-buttons">
+                        <a href="{{ url_for('public.portfolio') }}" class="btn btn-primary">Смотреть работы</a>
+                        <a href="{{ url_for('public.about') }}" class="btn btn-secondary">О художнике</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <button class="slider-prev" aria-label="Предыдущий слайд"><i class="fas fa-chevron-left"></i></button>
+        <button class="slider-next" aria-label="Следующий слайд"><i class="fas fa-chevron-right"></i></button>
+
+        <div class="slider-dots">
+            <span class="dot active"></span>
+            <span class="dot"></span>
+        </div>
+    </div>
+</section>
+
+<section class="featured-works">
+    <div class="container">
+        <h2 class="section-title">Избранные работы</h2>
+        <p class="section-subtitle">Недавние картины и проекты</p>
+
+        <div class="works-grid">
+            {% for work in featured_works %}
+            <div class="work-card">
+                <div class="work-image">
+                    <img src="{{ url_for('static', filename='images/portfolio/' + work.image_path) }}" alt="{{ work.title }}">
+                    <div class="work-overlay">
+                        <a href="{{ url_for('public.portfolio') }}" class="view-btn">Подробнее</a>
+                    </div>
+                </div>
+                <div class="work-info">
+                    <h3>"{{ work.title }}"</h3>
+                    <p>{{ work.technique }} • {{ work.size }} • {{ work.year }}</p>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+
+        <div class="text-center">
+            <a href="{{ url_for('public.portfolio') }}" class="btn btn-outline">Вся галерея</a>
+        </div>
+    </div>
+</section>
+
+<section class="about-preview">
+    <div class="container">
+        <div class="about-content">
+            <div class="about-image">
+                <img src="{{ url_for('static', filename='images/hero/author.jpg') }}" alt="Мошурова Полина">
+            </div>
+            <div class="about-text">
+                <h2 class="section-title">Несколько слов о себе</h2>
+                <p>Привет! Меня зовут Мошурова Полина, я начинающий художник-живописец. Сейчас обучаюсь на втором курсе станковой живописи в РГУ им. Косыгина. Мой главный инструмент — это масло. Для меня живопись — это не просто перенос изображения на холст, это возможность остановить мгновение, наполнить его светом, воздухом и той неуловимой энергией, которая делает картину "живой".</p>
+                <a href="{{ url_for('public.about') }}" class="btn btn-primary">Узнать больше</a>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

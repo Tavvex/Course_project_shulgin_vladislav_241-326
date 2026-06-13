@@ -1,0 +1,99 @@
+{% extends "base.html" %}
+
+{% block title %}Услуги и цены | Мошурова Полина{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/shop.css') }}">
+{% endblock %}
+
+{% block content %}
+<section class="shop-section">
+    <div class="container">
+        <div class="shop-header">
+            <h1 class="page-title">Услуги и цены</h1>
+            <p class="page-subtitle">Ориентировочная стоимость работ. Точная цена обсуждается индивидуально.</p>
+        </div>
+
+        <div class="pricing-grid">
+            <div class="pricing-card">
+                <div class="pricing-info">
+                    <h3>Портрет</h3>
+                    <ul class="pricing-features">
+                        <li><i class="fas fa-paintbrush"></i> Масло, холст</li>
+                        <li><i class="fas fa-ruler"></i> Размер: от 40×50 см</li>
+                        <li><i class="fas fa-clock"></i> Срок: 2-4 недели</li>
+                    </ul>
+                    <p class="pricing-price">от 5 000 ₽</p>
+                    <a href="#footer" class="btn btn-primary">Заказать</a>
+                </div>
+            </div>
+            <div class="pricing-card">
+                <div class="pricing-info">
+                    <h3>Пейзаж</h3>
+                    <ul class="pricing-features">
+                        <li><i class="fas fa-paintbrush"></i> Масло, холст</li>
+                        <li><i class="fas fa-ruler"></i> Размер: от 24×30 см</li>
+                        <li><i class="fas fa-clock"></i> Срок: 2-4 недели</li>
+                    </ul>
+                    <p class="pricing-price">от 5 000 ₽</p>
+                    <a href="#footer" class="btn btn-primary">Заказать</a>
+                </div>
+            </div>
+            <div class="pricing-card">
+                <div class="pricing-info">
+                    <h3>Натюрморт</h3>
+                    <ul class="pricing-features">
+                        <li><i class="fas fa-paintbrush"></i> Масло, холст</li>
+                        <li><i class="fas fa-ruler"></i> Размер: от 45×60 см</li>
+                        <li><i class="fas fa-clock"></i> Срок: 2-4 недели</li>
+                    </ul>
+                    <p class="pricing-price">от 5 000 ₽</p>
+                    <a href="#footer" class="btn btn-primary">Заказать</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="pricing-card">
+            <div class="pricing-info">
+                <h3>Свободная композиция</h3>
+                <ul class="pricing-features">
+                    <li><i class="fas fa-paintbrush"></i> Масло, холст</li>
+                    <li><i class="fas fa-ruler"></i> Размер: от 40×50 см</li>
+                    <li><i class="fas fa-clock"></i> Срок: 2-4 недели</li>
+                </ul>
+                <p class="pricing-price">от 5 000 ₽</p>
+                <a href="#footer" class="btn btn-primary">Заказать</a>
+            </div>
+        </div>
+
+        <div class="price-table-container">
+            <h2>Ориентировочные цены по размерам</h2>
+            <p class="price-table-note">* Цены указаны за масляную живопись.</p>
+            <div class="price-table">
+                <div class="price-row-header">
+                    <div class="price-cell">Размер (см)</div>
+                    <div class="price-cell">Формат</div>
+                    <div class="price-cell">Стоимость</div>
+                </div>
+                <div class="price-row"><div class="price-cell">24×30</div><div class="price-cell">Миниатюра</div><div class="price-cell">5 000 ₽</div></div>
+                <div class="price-row"><div class="price-cell">40×50</div><div class="price-cell">Малый формат</div><div class="price-cell">7 000 ₽</div></div>
+                <div class="price-row"><div class="price-cell">50×70</div><div class="price-cell">Средний формат</div><div class="price-cell">9 000 ₽</div></div>
+                <div class="price-row"><div class="price-cell">70×90</div><div class="price-cell">Средний формат</div><div class="price-cell">11 000 ₽</div></div>
+                <div class="price-row"><div class="price-cell">80×100</div><div class="price-cell">Крупный формат</div><div class="price-cell">13 000 ₽</div></div>
+                <div class="price-row"><div class="price-cell">100×120</div><div class="price-cell">Крупный формат</div><div class="price-cell">15 000 ₽</div></div>
+            </div>
+        </div>
+
+        <div class="shop-info-box">
+            <h3><i class="fas fa-info-circle"></i> Важно знать</h3>
+            <ul>
+                <li>Цены указаны за работу без учёта доставки</li>
+                <li>Сроки выполнения могут меняться в зависимости от сложности</li>
+                <li>Предоплата 50% для подтверждения заказа</li>
+                <li>Готовая работа покрывается защитным лаком</li>
+                <li>Доставка по Москве — бесплатно, в область — по согласованию</li>
+            </ul>
+        </div>
+    </div>
+</section>
+{% endblock %}

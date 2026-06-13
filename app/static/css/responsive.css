@@ -1,0 +1,354 @@
+/* Адаптивные стили */
+
+/* Планшеты и небольшие десктопы */
+@media (max-width: 1200px) {
+    .nav-main {
+        position: fixed;
+        top: var(--header-height);
+        left: 0;
+        width: 100%;
+        height: calc(100vh - var(--header-height));
+        background-color: var(--color-white);
+        flex-direction: column;
+        align-items: stretch;
+        padding: 30px 20px;
+        transform: translateX(100%);
+        transition: transform 0.3s ease;
+        z-index: 999;
+        overflow-y: auto;
+        gap: 30px;
+        box-shadow: -5px 0 15px rgba(0, 0, 0, 0.1);
+    }
+    
+    .nav-main.active {
+        transform: translateX(0);
+    }
+    
+    .nav-menu {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0;
+        width: 100%;
+    }
+    
+    .nav-menu li {
+        width: 100%;
+        border-bottom: 1px solid var(--border-color);
+    }
+    
+    .nav-link {
+        display: block;
+        padding: 15px 0;
+        width: 100%;
+        font-size: 1.1rem;
+    }
+    
+    .nav-link::after {
+        display: none;
+    }
+    
+    .nav-actions {
+        flex-direction: column;
+        width: 100%;
+        gap: 15px;
+        padding-top: 20px;
+        border-top: 1px solid var(--border-color);
+    }
+    
+    .contact-btn {
+        width: 100%;
+        text-align: center;
+        padding: 12px 20px;
+        font-size: 1rem;
+    }
+    
+    .menu-toggle {
+        display: flex;
+    }
+    
+    .menu-toggle.active span:nth-child(1) {
+        transform: rotate(45deg) translate(6px, 6px);
+    }
+    
+    .menu-toggle.active span:nth-child(2) {
+        opacity: 0;
+    }
+    
+    .menu-toggle.active span:nth-child(3) {
+        transform: rotate(-45deg) translate(6px, -6px);
+    }
+    
+    .page-title {
+        font-size: 2.2rem;
+    }
+    
+    .hero-title {
+        font-size: 2.5rem;
+    }
+
+    
+    
+    .hero-subtitle {
+        font-size: 1rem;
+    }
+    
+    section {
+        padding: 60px 0;
+    }
+    
+    h1 {
+        font-size: 2.5rem;
+    }
+    
+    h2 {
+        font-size: 2rem;
+    }
+    
+    .about-main {
+        grid-template-columns: 1fr;
+        gap: 40px;
+    }
+    
+    .techniques-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    
+    .about-content {
+        flex-direction: column;
+    }
+    
+    .about-image,
+    .about-text {
+        width: 100%;
+    }
+
+    .about-image{
+        height: auto;
+    }
+    
+    .footer-content {
+        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+        gap: 30px;
+    }
+    
+    .footer-bottom {
+        flex-direction: column;
+        gap: 15px;
+        text-align: center;
+    }
+}
+
+/* Мобильные устройства (до 767px) */
+@media (max-width: 767px) {
+    .container {
+        padding: 0 15px;
+    }
+    
+    .logo-text {
+        font-size: 1.2rem;
+    }
+    
+    .logo-subtitle {
+        font-size: 0.7rem;
+    }
+    
+    .hero {
+        height: 80vh;
+    }
+    
+    .hero-title {
+        font-size: 2rem;
+        line-height: 1.2;
+    }
+    
+    .hero-buttons {
+        flex-direction: column;
+        align-items: center;
+        gap: 15px;
+    }
+    
+    .slider-prev,
+    .slider-next {
+        width: 40px;
+        height: 40px;
+        font-size: 1rem;
+    }
+    
+    section {
+        padding: 40px 0;
+    }
+    
+    h1 {
+        font-size: 2rem;
+    }
+    
+    h2 {
+        font-size: 1.75rem;
+    }
+    
+    .section-title {
+        font-size: 1.75rem;
+    }
+    
+    .page-title {
+        font-size: 2rem;
+    }
+
+    
+    
+    .works-grid {
+        grid-template-columns: 1fr;
+        gap: 30px;
+    }
+    
+    .techniques-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .philosophy {
+        padding: 25px 15px;
+    }
+    
+    .quote p {
+        font-size: 1.1rem;
+        padding: 0 10px;
+    }
+    
+    .about-cta {
+        padding: 40px 20px;
+    }
+    
+    .portfolio-filters {
+        justify-content: flex-start;
+        overflow-x: auto;
+        padding-bottom: 10px;
+        margin-bottom: 30px;
+    }
+    
+    .filter-btn {
+        white-space: nowrap;
+        font-size: 0.85rem;
+        padding: 6px 15px;
+    }
+    
+    .footer-content {
+        grid-template-columns: 1fr;
+        gap: 30px;
+    }
+    
+    .social-links {
+        justify-content: center;
+    }
+    
+    .newsletter-form {
+        flex-direction: column;
+    }
+    
+    .newsletter-form input {
+        border-right: 1px solid var(--border-color);
+        border-radius: var(--border-radius);
+        margin-bottom: 10px;
+    }
+    
+    .newsletter-btn {
+        border-radius: var(--border-radius);
+        padding: 12px 20px;
+    }
+    
+    .modal-content {
+        width: 95%;
+        max-height: 95vh;
+        margin: 10px;
+    }
+    
+    .modal-actions {
+        flex-direction: column;
+        gap: 10px;
+    }
+    
+    .modal-actions .btn {
+        width: 100%;
+    }
+}
+
+/* Очень маленькие экраны (до 480px) */
+@media (max-width: 480px) {
+    h1 {
+        font-size: 1.75rem;
+    }
+
+    .hero,
+    .portfolio-section,
+    .about-section,
+    .shop-section {
+        padding-top: 0;
+    }
+    h2 {
+        font-size: 1.5rem;
+    }
+    
+    .page-title {
+        font-size: 1.8rem;
+    }
+    
+    .hero-title {
+        font-size: 1.8rem;
+    }
+    
+    .hero-subtitle {
+        font-size: 0.9rem;
+    }
+    
+    .btn {
+        padding: 10px 20px;
+        font-size: 0.9rem;
+    }
+    
+    .work-info,
+    .portfolio-info {
+        padding: 15px;
+    }
+    
+    .contact-card {
+        padding: 20px 15px;
+    }
+    
+    .info-block h2 {
+        font-size: 1.5rem;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 8px;
+    }
+    
+    .info-block h2 i {
+        font-size: 1.3rem;
+    }
+    
+    .quote {
+        padding: 15px 5px;
+        margin-bottom: 20px;
+    }
+    
+    .quote i.fa-quote-left,
+    .quote i.fa-quote-right {
+        font-size: 1.5rem;
+    }
+    
+    .logo-text {
+        font-size: 1.1rem;
+    }
+    
+    .logo-subtitle {
+        font-size: 0.6rem;
+    }
+    
+    .nav-link {
+        font-size: 1rem;
+        padding: 12px 0;
+    }
+    
+    .contact-btn {
+        font-size: 0.9rem;
+        padding: 10px 15px;
+    }
+}

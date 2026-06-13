@@ -1,0 +1,154 @@
+{% extends "base.html" %}
+
+{% block title %}Портфолио | Мошурова Полина{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/portfolio.css') }}">
+{% endblock %}
+
+{% block content %}
+<section class="portfolio-section">
+    <div class="container">
+        <div class="portfolio-header">
+            <h1 class="page-title">Портфолио</h1>
+            <p class="page-subtitle">Галерея работ за разные годы</p>
+        </div>
+
+        <div class="portfolio-filters">
+            <a href="{{ url_for('public.portfolio', category='all', sort=active_sort, status=active_status) }}"
+               class="filter-btn {% if active_category == 'all' %}active{% endif %}">Все работы</a>
+            {% for slug, label in categories %}
+            <a href="{{ url_for('public.portfolio', category=slug, sort=active_sort, status=active_status) }}"
+               class="filter-btn {% if active_category == slug %}active{% endif %}">{{ label }}</a>
+            {% endfor %}
+        </div>
+
+        <div class="portfolio-toolbar">
+            <div class="portfolio-status-filters">
+                <span class="status-label">Доступность:</span>
+                <a href="{{ url_for('public.portfolio', category=active_category, sort=active_sort, status='all', page=1) }}"
+                   class="status-btn {% if active_status == 'all' %}active{% endif %}">Все</a>
+                <a href="{{ url_for('public.portfolio', category=active_category, sort=active_sort, status='for-sale', page=1) }}"
+                   class="status-btn {% if active_status == 'for-sale' %}active{% endif %}">В наличии</a>
+                <a href="{{ url_for('public.portfolio', category=active_category, sort=active_sort, status='not-for-sale', page=1) }}"
+                   class="status-btn {% if active_status == 'not-for-sale' %}active{% endif %}">Не продаются</a>
+            </div>
+            <div class="portfolio-sort">
+                <span class="sort-label">Сортировать по году:</span>
+                <div class="sort-buttons">
+                    <a href="{{ url_for('public.portfolio', category=active_category, sort='newest', status=active_status, page=1) }}"
+                       class="sort-btn {% if active_sort == 'newest' %}active{% endif %}">Сначала новые ↓</a>
+                    <a href="{{ url_for('public.portfolio', category=active_category, sort='oldest', status=active_status, page=1) }}"
+                       class="sort-btn {% if active_sort == 'oldest' %}active{% endif %}">Сначала старые ↑</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="portfolio-grid" id="portfolio-grid">
+            {% for work in works %}
+            <div class="portfolio-item" data-category="{{ work.category }}">
+                <div class="portfolio-card">
+                    <div class="portfolio-image">
+                        {% if work.image_path %}
+                        <img src="{{ url_for('static', filename='images/portfolio/' + work.image_path) }}" alt="{{ work.title }}">
+                        {% else %}
+                        <div class="portfolio-no-image"><i class="fas fa-image"></i></div>
+                        {% endif %}
+                        <div class="portfolio-overlay">
+                            <button class="view-details" data-work="{{ work.id }}">Подробнее</button>
+                        </div>
+                        <form method="POST"
+                              action="{{ url_for('public.toggle_favorite', work_id=work.id) }}"
+                              class="favorite-form">
+                            <input type="hidden" name="next" value="{{ request.url }}">
+                            <button type="submit"
+                                    class="favorite-btn {% if work.id in favorite_ids %}favorited{% endif %}"
+                                    title="{% if work.id in favorite_ids %}Убрать из избранного{% else %}Добавить в избранное{% endif %}">
+                                <i class="{% if work.id in favorite_ids %}fas{% else %}far{% endif %} fa-heart"></i>
+                            </button>
+                        </form>
+                    </div>
+                    <div class="portfolio-info">
+                        <h3>"{{ work.title }}"</h3>
+                        <p>{{ work.technique }} • {{ work.size }} • {{ work.year }}</p>
+                        {% if work.status == 'for-sale' %}
+                        <div class="price-status">
+                            <span class="price">{{ work.price }} ₽</span>
+                            <span class="status-badge for-sale">В наличии</span>
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            {% else %}
+            <p class="no-works">Работ в этой категории пока нет.</p>
+            {% endfor %}
+        </div>
+
+        {% if pagination and pagination.pages > 1 %}
+        <div class="pagination">
+            {% if pagination.has_prev %}
+            <a href="{{ url_for('public.portfolio', category=active_category, sort=active_sort, status=active_status, page=pagination.prev_num) }}"
+               class="page-btn">← Назад</a>
+            {% endif %}
+
+            {% for p in pagination.iter_pages(left_edge=1, right_edge=1, left_current=2, right_current=2) %}
+                {% if p %}
+                <a href="{{ url_for('public.portfolio', category=active_category, sort=active_sort, status=active_status, page=p) }}"
+                   class="page-btn {% if p == pagination.page %}active{% endif %}">{{ p }}</a>
+                {% else %}
+                <span class="page-ellipsis">…</span>
+                {% endif %}
+            {% endfor %}
+
+            {% if pagination.has_next %}
+            <a href="{{ url_for('public.portfolio', category=active_category, sort=active_sort, status=active_status, page=pagination.next_num) }}"
+               class="page-btn">Вперёд →</a>
+            {% endif %}
+        </div>
+        {% endif %}
+    </div>
+</section>
+
+<div class="modal-overlay" id="work-modal">
+    <div class="modal-content">
+        <button class="modal-close" aria-label="Закрыть"><i class="fas fa-times"></i></button>
+        <div class="modal-body">
+            <div class="modal-image"><img id="modal-work-image" src="" alt=""></div>
+            <div class="modal-info">
+                <h2 id="modal-work-title"></h2>
+                <p id="modal-work-details"></p>
+                <div class="modal-description"><p id="modal-work-description"></p></div>
+                <div class="modal-actions">
+                    <a href="{{ url_for('public.shop') }}" class="btn btn-primary">Заказать подобную работу</a>
+                    <button class="btn btn-outline modal-close-btn">Вернуться в галерею</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+.favorite-form { position: absolute; top: 10px; right: 10px; z-index: 2; }
+.favorite-btn { background: rgba(255,255,255,0.85); border: none; border-radius: 50%; width: 36px; height: 36px; cursor: pointer; font-size: 1rem; color: #ccc; transition: all 0.2s; display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 6px rgba(0,0,0,0.15); }
+.favorite-btn:hover { background: white; color: #e74c3c; transform: scale(1.1); }
+.favorite-btn.favorited { color: #e74c3c; background: white; }
+.pagination { display: flex; justify-content: center; align-items: center; gap: 8px; margin-top: 40px; }
+.page-btn { display: inline-flex; align-items: center; justify-content: center; min-width: 40px; height: 40px; padding: 0 12px; border: 1px solid #ddd; border-radius: 8px; text-decoration: none; color: #555; font-size: 0.95rem; transition: all 0.2s; }
+.page-btn:hover { border-color: #8a9b8c; color: #8a9b8c; }
+.page-btn.active { background: #8a9b8c; border-color: #8a9b8c; color: white; }
+.page-ellipsis { color: #999; padding: 0 4px; }
+.no-works { color: #999; text-align: center; padding: 40px; grid-column: 1/-1; }
+.filter-btn { display: inline-block; padding: 8px 20px; border: 1px solid #ddd; border-radius: 20px; text-decoration: none; color: #555; font-size: 0.9rem; transition: all 0.2s; cursor: pointer; }
+.filter-btn.active, .filter-btn:hover { background: #8a9b8c; border-color: #8a9b8c; color: white; }
+.sort-btn { display: inline-block; padding: 6px 14px; border: 1px solid #ddd; border-radius: 6px; text-decoration: none; color: #555; font-size: 0.85rem; transition: all 0.2s; }
+.sort-btn.active, .sort-btn:hover { background: #8a9b8c; border-color: #8a9b8c; color: white; }
+</style>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+window.worksData = {{ works_data | tojson | safe }};
+</script>
+<script src="{{ url_for('static', filename='js/gallery.js') }}"></script>
+{% endblock %}

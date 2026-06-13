@@ -1,0 +1,211 @@
+{% extends "base.html" %}
+
+{% block title %}Личный кабинет | Мошурова Полина{% endblock %}
+
+{% block content %}
+<section class="cabinet-section">
+    <div class="container">
+        <div class="cabinet-header">
+            <h1 class="page-title">Личный кабинет</h1>
+            <p class="page-subtitle">Управление профилем</p>
+        </div>
+
+        <div class="cabinet-grid">
+            <!-- Информация о профиле -->
+            <div class="cabinet-card">
+                <div class="profile-avatar">
+                    <i class="fas fa-user-circle"></i>
+                </div>
+                <h2>{{ current_user.username }}</h2>
+                <p class="profile-email"><i class="fas fa-envelope"></i> {{ current_user.email }}</p>
+                <p class="profile-date"><i class="fas fa-calendar-alt"></i> Зарегистрирован: {{ current_user.created_at.strftime('%d.%m.%Y') }}</p>
+                {% if current_user.last_login %}
+                <p class="profile-date"><i class="fas fa-clock"></i> Последний вход: {{ current_user.last_login.strftime('%d.%m.%Y %H:%M') }}</p>
+                {% endif %}
+            </div>
+
+            <!-- Форма редактирования -->
+            <div class="cabinet-card">
+                <h3>Редактировать профиль</h3>
+                <form method="POST" action="{{ url_for('cabinet.edit') }}" class="cabinet-form">
+                    <div class="form-group">
+                        <label>Текущий пароль <span class="required">*</span></label>
+                        <input type="password" name="current_password" required placeholder="Для подтверждения изменений">
+                    </div>
+                    <div class="form-group">
+                        <label>Новое имя пользователя</label>
+                        <input type="text" name="username" value="{{ current_user.username }}">
+                    </div>
+                    <div class="form-group">
+                        <label>Новый email</label>
+                        <input type="email" name="email" value="{{ current_user.email }}">
+                    </div>
+                    <div class="form-group">
+                        <label>Новый пароль <span style="color:#999;font-size:0.85rem;">(оставьте пустым, чтобы не менять)</span></label>
+                        <input type="password" name="new_password" placeholder="Минимум 6 символов">
+                    </div>
+                    <button type="submit" class="btn btn-primary">Сохранить изменения</button>
+                </form>
+            </div>
+
+            <!-- Избранные работы -->
+            <div class="cabinet-card cabinet-card--full">
+                <h3><i class="fas fa-heart" style="color:#e74c3c;margin-right:8px;"></i>Избранные работы</h3>
+                {% if favorites %}
+                <div class="favorites-grid">
+                    {% for fav in favorites %}
+                    <div class="fav-item">
+                        {% if fav.work.image_path %}
+                        <img src="{{ url_for('static', filename='images/portfolio/' + fav.work.image_path) }}"
+                             alt="{{ fav.work.title }}" class="fav-image">
+                        {% else %}
+                        <div class="fav-image fav-no-image"><i class="fas fa-image"></i></div>
+                        {% endif %}
+                        <div class="fav-info">
+                            <strong>"{{ fav.work.title }}"</strong>
+                            <p>{{ fav.work.technique }} • {{ fav.work.year }}</p>
+                            {% if fav.work.status == 'for-sale' %}
+                            <p class="fav-price">{{ fav.work.price }} ₽</p>
+                            {% endif %}
+                            <form method="POST"
+                                  action="{{ url_for('public.toggle_favorite', work_id=fav.work_id) }}">
+                                <input type="hidden" name="next" value="{{ url_for('cabinet.profile') }}">
+                                <button type="submit" class="btn-remove-fav">
+                                    <i class="fas fa-heart-broken"></i> Убрать из избранного
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+                {% else %}
+                <p style="color:#999;">Нет избранных работ. <a href="{{ url_for('public.portfolio') }}">Перейти в портфолио</a></p>
+                {% endif %}
+            </div>
+
+            <!-- Мои отзывы -->
+            <div class="cabinet-card cabinet-card--full">
+                <h3><i class="fas fa-star" style="color:#f4c542;margin-right:8px;"></i>Мои отзывы</h3>
+                {% set user_reviews = current_user.reviews %}
+                {% if user_reviews %}
+                <div class="mini-reviews">
+                    {% for review in user_reviews %}
+                    <div class="mini-review" id="review-{{ review.id }}">
+                        <div class="mini-review-header">
+                            <span>
+                                {% for i in range(review.rating) %}<i class="fas fa-star" style="color:#f4c542;"></i>{% endfor %}
+                            </span>
+                            <span class="mini-review-date">{{ review.formatted_date }}</span>
+                            <span class="mini-review-status">
+                                {% if review.is_approved %}<span style="color:green;">✓ Опубликован</span>
+                                {% else %}<span style="color:orange;">⏳ На модерации</span>{% endif %}
+                            </span>
+                            <div class="review-actions">
+                                <button class="btn-edit-review"
+                                        onclick="toggleEditForm({{ review.id }})">
+                                    <i class="fas fa-pen"></i> Изменить
+                                </button>
+                                <form method="POST"
+                                      action="{{ url_for('cabinet.delete_review', review_id=review.id) }}"
+                                      onsubmit="return confirm('Удалить этот отзыв?')">
+                                    <button type="submit" class="btn-delete-review">
+                                        <i class="fas fa-trash"></i> Удалить
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
+                        <p class="review-text">{{ review.text }}</p>
+
+                        <!-- Форма редактирования (скрыта по умолчанию) -->
+                        <form method="POST"
+                              action="{{ url_for('cabinet.edit_review', review_id=review.id) }}"
+                              class="edit-review-form"
+                              id="edit-form-{{ review.id }}"
+                              style="display:none;">
+                            <div class="form-group">
+                                <label>Оценка</label>
+                                <select name="rating" class="rating-select">
+                                    {% for i in range(1, 6) %}
+                                    <option value="{{ i }}" {% if review.rating == i %}selected{% endif %}>
+                                        {{ '★' * i }} ({{ i }})
+                                    </option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>Текст отзыва</label>
+                                <textarea name="text" rows="3" maxlength="1000">{{ review.text }}</textarea>
+                            </div>
+                            <div style="display:flex;gap:8px;">
+                                <button type="submit" class="btn btn-primary btn-sm">Сохранить</button>
+                                <button type="button" class="btn btn-outline btn-sm"
+                                        onclick="toggleEditForm({{ review.id }})">Отмена</button>
+                            </div>
+                        </form>
+                    </div>
+                    {% endfor %}
+                </div>
+                {% else %}
+                <p style="color:#999;">Вы ещё не оставляли отзывов. <a href="{{ url_for('public.reviews') }}">Оставить отзыв</a></p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</section>
+
+<style>
+.cabinet-section { padding: 60px 0; }
+.cabinet-header { text-align: center; margin-bottom: 40px; }
+.cabinet-grid { display: grid; grid-template-columns: 1fr 2fr; gap: 24px; }
+.cabinet-card { background: white; border-radius: 16px; box-shadow: 0 4px 16px rgba(0,0,0,0.08); padding: 32px; }
+.cabinet-card--full { grid-column: 1 / -1; }
+.profile-avatar i { font-size: 5rem; color: #8a9b8c; display: block; text-align: center; margin-bottom: 16px; }
+.cabinet-card h2 { text-align: center; font-size: 1.4rem; margin-bottom: 12px; }
+.profile-email, .profile-date { color: #666; margin: 6px 0; font-size: 0.95rem; }
+.profile-email i, .profile-date i { width: 18px; color: #8a9b8c; }
+.cabinet-form .form-group { margin-bottom: 18px; }
+.cabinet-form label { display: block; margin-bottom: 6px; font-weight: 500; color: #555; }
+.cabinet-form input { width: 100%; padding: 10px 14px; border: 1px solid #ddd; border-radius: 8px; font-size: 0.95rem; box-sizing: border-box; }
+.cabinet-form input:focus { outline: none; border-color: #8a9b8c; }
+.required { color: #dc3545; }
+
+/* Избранное */
+.favorites-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 16px; margin-top: 16px; }
+.fav-item { border: 1px solid #eee; border-radius: 12px; overflow: hidden; }
+.fav-image { width: 100%; height: 140px; object-fit: cover; display: block; }
+.fav-no-image { width: 100%; height: 140px; display: flex; align-items: center; justify-content: center; background: #f5f5f5; color: #ccc; font-size: 2rem; }
+.fav-info { padding: 12px; }
+.fav-info strong { display: block; font-size: 0.9rem; margin-bottom: 4px; }
+.fav-info p { color: #666; font-size: 0.8rem; margin: 2px 0; }
+.fav-price { color: #8a9b8c; font-weight: 600; }
+.btn-remove-fav { background: none; border: 1px solid #ddd; border-radius: 6px; padding: 6px 10px; font-size: 0.8rem; color: #e74c3c; cursor: pointer; margin-top: 8px; transition: all 0.2s; }
+.btn-remove-fav:hover { background: #fdf2f2; border-color: #e74c3c; }
+
+/* Отзывы */
+.mini-reviews { display: flex; flex-direction: column; gap: 16px; }
+.mini-review { border: 1px solid #eee; border-radius: 8px; padding: 16px; }
+.mini-review-header { display: flex; align-items: center; gap: 12px; margin-bottom: 8px; flex-wrap: wrap; }
+.mini-review-date { color: #999; font-size: 0.85rem; }
+.review-actions { display: flex; gap: 8px; margin-left: auto; }
+.btn-edit-review, .btn-delete-review { background: none; border: 1px solid #ddd; border-radius: 6px; padding: 4px 10px; font-size: 0.8rem; cursor: pointer; transition: all 0.2s; }
+.btn-edit-review { color: #8a9b8c; }
+.btn-edit-review:hover { background: #f0f4f0; border-color: #8a9b8c; }
+.btn-delete-review { color: #e74c3c; }
+.btn-delete-review:hover { background: #fdf2f2; border-color: #e74c3c; }
+.edit-review-form { margin-top: 12px; padding-top: 12px; border-top: 1px solid #eee; }
+.edit-review-form .form-group { margin-bottom: 10px; }
+.edit-review-form label { display: block; font-size: 0.85rem; margin-bottom: 4px; color: #555; }
+.edit-review-form textarea { width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 6px; font-size: 0.9rem; box-sizing: border-box; resize: vertical; }
+.rating-select { padding: 6px 10px; border: 1px solid #ddd; border-radius: 6px; font-size: 0.9rem; }
+.btn-sm { padding: 6px 14px; font-size: 0.85rem; }
+
+@media (max-width: 768px) { .cabinet-grid { grid-template-columns: 1fr; } .cabinet-card--full { grid-column: 1; } }
+</style>
+
+<script>
+function toggleEditForm(reviewId) {
+    const form = document.getElementById('edit-form-' + reviewId);
+    form.style.display = form.style.display === 'none' ? 'block' : 'none';
+}
+</script>
+{% endblock %}

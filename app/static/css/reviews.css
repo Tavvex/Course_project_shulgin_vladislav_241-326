@@ -1,0 +1,147 @@
+/* Стили для страницы отзывов */
+
+.reviews-section {
+    padding-top: 120px;
+    padding-bottom: 80px;
+}
+
+.reviews-header {
+    text-align: center;
+    margin-bottom: 50px;
+}
+
+.reviews-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+    gap: 30px;
+    margin-bottom: 60px;
+}
+
+.review-card {
+    background: var(--color-light-gray);
+    border-radius: var(--border-radius);
+    padding: 25px;
+    transition: transform 0.3s ease;
+}
+
+.review-card:hover {
+    transform: translateY(-5px);
+}
+
+.review-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.review-author {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.review-author i {
+    font-size: 2rem;
+    color: var(--color-green);
+}
+
+.review-author h3 {
+    font-size: 1.1rem;
+    margin-bottom: 0;
+}
+
+.review-rating i {
+    color: #ffc107;
+}
+
+.review-text p {
+    margin-bottom: 15px;
+    line-height: 1.6;
+}
+
+.review-date {
+    font-size: 0.8rem;
+    color: var(--color-gray);
+}
+
+.review-date i {
+    margin-right: 5px;
+}
+
+.no-reviews {
+    text-align: center;
+    padding: 60px;
+    background: var(--color-light-gray);
+    border-radius: var(--border-radius);
+    margin-bottom: 60px;
+}
+
+.no-reviews i {
+    font-size: 3rem;
+    color: var(--color-green);
+    margin-bottom: 15px;
+}
+
+.review-form-section {
+    max-width: 600px;
+    margin: 0 auto;
+    background: var(--color-white);
+    padding: 40px;
+    border-radius: var(--border-radius);
+    box-shadow: 0 4px 20px var(--shadow-color);
+}
+
+.review-form-section h2 {
+    text-align: center;
+    margin-bottom: 30px;
+    font-size: 1.5rem;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 500;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+    width: 100%;
+    padding: 12px 15px;
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius);
+    font-family: var(--font-primary);
+}
+
+.form-group textarea {
+    resize: vertical;
+}
+
+/* Адаптация */
+@media (max-width: 768px) {
+    .reviews-section {
+        padding-top: 100px;
+    }
+    
+    .reviews-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .review-form-section {
+        padding: 25px;
+    }
+}
+
+@media (max-width: 480px) {
+    .review-header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+}

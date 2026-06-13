@@ -1,0 +1,130 @@
+{% extends "admin/base_admin.html" %}
+
+{% block admin_title %}Управление работами{% endblock %}
+
+{% block admin_content %}
+<div style="margin-bottom: 20px;">
+    <button onclick="document.getElementById('add-work-form').style.display='block'" class="btn btn-primary">+ Добавить работу</button>
+</div>
+
+<div id="add-work-form" style="display: none; background: #f8f9fa; padding: 20px; border-radius: 10px; margin-bottom: 30px;">
+    <h3>Добавить новую работу</h3>
+    <form method="POST" action="{{ url_for('admin.work_add') }}" enctype="multipart/form-data">
+        <div class="form-group">
+            <label>Название</label>
+            <input type="text" name="title" required>
+        </div>
+        <div class="form-group">
+            <label>Техника</label>
+            <input type="text" name="technique" value="Масло, холст" required>
+        </div>
+        <div class="form-group">
+            <label>Размер</label>
+            <input type="text" name="size" placeholder="например: 40×50 см" required>
+        </div>
+        <div class="form-group">
+            <label>Год</label>
+            <input type="number" name="year" required>
+        </div>
+        <div class="form-group">
+            <label>Категория</label>
+            <select name="category">
+                {% for slug, label in categories %}
+                <option value="{{ slug }}">{{ label }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="form-group">
+            <label>Изображение</label>
+            <input type="file" name="image" accept=".png,.jpg,.jpeg,.gif">
+        </div>
+        <div class="form-group">
+            <label>Статус</label>
+            <select name="status" id="status-select-add">
+                <option value="not-for-sale">Не продаётся</option>
+                <option value="for-sale">В наличии</option>
+            </select>
+        </div>
+        <div class="form-group" id="price-group-add" style="display: none;">
+            <label>Цена (₽)</label>
+            <input type="number" name="price">
+        </div>
+        <div class="form-group">
+            <label>Описание</label>
+            <textarea name="description" rows="3"></textarea>
+        </div>
+        <button type="submit" class="btn btn-primary">Сохранить</button>
+        <button type="button" onclick="document.getElementById('add-work-form').style.display='none'" class="btn" style="background:#6c757d;color:white;">Отмена</button>
+    </form>
+</div>
+
+<table class="admin-table">
+    <thead>
+        <tr>
+            <th>ID</th><th>Название</th><th>Техника</th><th>Размер</th><th>Год</th><th>Категория</th><th>Статус</th><th>Действия</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for work in works %}
+        <tr>
+            <td>{{ work.id }}</td>
+            <td>"{{ work.title }}"</td>
+            <td>{{ work.technique }}</td>
+            <td>{{ work.size }}</td>
+            <td>{{ work.year }}</td>
+            <td>{{ work.category }}</td>
+            <td>{% if work.status == 'for-sale' %}🟢 В наличии{% else %}⚪ Не продаётся{% endif %}</td>
+            <td>
+                <button onclick="toggleEdit('{{ work.id }}')" class="btn btn-primary btn-sm">Редактировать</button>
+                <a href="{{ url_for('admin.work_delete', work_id=work.id) }}" onclick="return confirm('Удалить работу?')" class="btn btn-danger btn-sm">Удалить</a>
+            </td>
+        </tr>
+        <tr id="edit-{{ work.id }}" style="display:none;">
+            <td colspan="8">
+                <form method="POST" action="{{ url_for('admin.work_edit', work_id=work.id) }}" enctype="multipart/form-data" style="background:#f8f9fa;padding:15px;">
+                    <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:10px;">
+                        <input type="text" name="title" value="{{ work.title }}" placeholder="Название">
+                        <input type="text" name="technique" value="{{ work.technique }}" placeholder="Техника">
+                        <input type="text" name="size" value="{{ work.size }}" placeholder="Размер">
+                        <input type="number" name="year" value="{{ work.year }}" placeholder="Год">
+                        <select name="category">
+                            {% for slug, label in categories %}
+                            <option value="{{ slug }}" {% if slug == work.category %}selected{% endif %}>{{ label }}</option>
+                            {% endfor %}
+                        </select>
+                        <div>
+                            <label style="font-size:0.85rem;">Новое изображение (необязательно)</label>
+                            <input type="file" name="image" accept=".png,.jpg,.jpeg,.gif">
+                        </div>
+                        <select name="status">
+                            <option value="not-for-sale" {% if work.status == 'not-for-sale' %}selected{% endif %}>Не продаётся</option>
+                            <option value="for-sale" {% if work.status == 'for-sale' %}selected{% endif %}>В наличии</option>
+                        </select>
+                        <input type="number" name="price" value="{{ work.price or '' }}" placeholder="Цена (если продаётся)">
+                    </div>
+                    <textarea name="description" rows="2" placeholder="Описание" style="width:100%;margin-top:10px;">{{ work.description or '' }}</textarea>
+                    <div style="margin-top:10px;">
+                        <button type="submit" class="btn btn-primary btn-sm">Сохранить</button>
+                        <button type="button" onclick="toggleEdit('{{ work.id }}')" class="btn btn-sm" style="background:#6c757d;color:white;">Отмена</button>
+                    </div>
+                </form>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+{% if not works %}
+<p style="text-align:center;padding:40px;">Нет добавленных работ</p>
+{% endif %}
+
+<script>
+function toggleEdit(id) {
+    const row = document.getElementById('edit-' + id);
+    row.style.display = row.style.display === 'none' ? 'table-row' : 'none';
+}
+document.getElementById('status-select-add').addEventListener('change', function() {
+    document.getElementById('price-group-add').style.display = this.value === 'for-sale' ? 'block' : 'none';
+});
+</script>
+{% endblock %}

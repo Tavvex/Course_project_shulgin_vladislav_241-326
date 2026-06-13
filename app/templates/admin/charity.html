@@ -1,0 +1,56 @@
+{% extends "admin/base_admin.html" %}
+
+{% block admin_title %}Управление благотворительными файлами{% endblock %}
+
+{% block admin_content %}
+<div style="margin-bottom: 20px;">
+    <button onclick="document.getElementById('upload-form').style.display='block'" class="btn btn-primary">+ Загрузить файл</button>
+</div>
+
+<div id="upload-form" style="display:none;background:#f8f9fa;padding:20px;border-radius:10px;margin-bottom:30px;">
+    <h3>Загрузить новый файл</h3>
+    <form method="POST" action="{{ url_for('admin.charity_upload') }}" enctype="multipart/form-data">
+        <div class="form-group">
+            <label>Название</label>
+            <input type="text" name="title" required>
+        </div>
+        <div class="form-group">
+            <label>Описание (необязательно)</label>
+            <textarea name="description" rows="2"></textarea>
+        </div>
+        <div class="form-group">
+            <label>Файл (PDF, PNG, JPG, JPEG, GIF, макс. 16MB)</label>
+            <input type="file" name="file" accept=".pdf,.png,.jpg,.jpeg,.gif" required>
+        </div>
+        <button type="submit" class="btn btn-primary">Загрузить</button>
+        <button type="button" onclick="document.getElementById('upload-form').style.display='none'" class="btn" style="background:#6c757d;color:white;">Отмена</button>
+    </form>
+</div>
+
+<table class="admin-table">
+    <thead>
+        <tr>
+            <th>ID</th><th>Название</th><th>Оригинальное имя</th><th>Тип</th><th>Размер</th><th>Дата</th><th>Скачиваний</th><th>Действия</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for file in files %}
+        <tr>
+            <td>{{ file.id }}</td>
+            <td>{{ file.title }}</td>
+            <td><small>{{ file.original_filename or '-' }}</small></td>
+            <td>{% if file.file_type == 'pdf' %}📄 PDF{% else %}🖼️ {{ file.file_type|upper }}{% endif %}</td>
+            <td>{% if file.file_size %}{{ (file.file_size / 1024)|round|int }} KB{% else %}-{% endif %}</td>
+            <td>{{ file.upload_date.strftime('%d.%m.%Y') }}</td>
+            <td>{{ file.download_count }}</td>
+            <td>
+                <a href="{{ url_for('admin.charity_delete', file_id=file.id) }}" onclick="return confirm('Удалить файл?')" class="btn btn-danger btn-sm">Удалить</a>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% if not files %}
+<p style="text-align:center;padding:40px;">Нет загруженных файлов</p>
+{% endif %}
+{% endblock %}

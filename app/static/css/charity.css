@@ -1,0 +1,150 @@
+/* Стили для страницы благотворительности */
+
+.charity-section {
+    padding-top: 120px;
+    padding-bottom: 80px;
+}
+
+.charity-header {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.charity-description {
+    max-width: 800px;
+    margin: 0 auto 60px;
+    text-align: center;
+    font-size: 1.1rem;
+    color: var(--color-gray);
+    line-height: 1.8;
+}
+
+.charity-files h2 {
+    text-align: center;
+    margin-bottom: 40px;
+    font-size: 1.8rem;
+}
+
+.files-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+    gap: 25px;
+}
+
+.file-card {
+    background: var(--color-light-gray);
+    border-radius: var(--border-radius);
+    padding: 25px;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    transition: transform 0.3s ease;
+    flex-wrap: wrap;
+}
+
+.file-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 4px 15px var(--shadow-color);
+}
+
+.file-icon i {
+    font-size: 2.5rem;
+}
+
+.file-icon .fa-file-pdf {
+    color: #dc3545;
+}
+
+.file-icon .fa-file-image {
+    color: #28a745;
+}
+
+.file-info {
+    flex: 1;
+}
+
+.file-info h3 {
+    font-size: 1.1rem;
+    margin-bottom: 8px;
+}
+
+.file-info p {
+    font-size: 0.85rem;
+    color: var(--color-gray);
+    margin-bottom: 8px;
+}
+
+.file-meta {
+    display: flex;
+    gap: 15px;
+    font-size: 0.75rem;
+    color: var(--color-gray);
+}
+
+.file-meta i {
+    margin-right: 3px;
+}
+
+.download-btn {
+    background: var(--color-green);
+    color: white;
+    padding: 10px 20px;
+    border-radius: var(--border-radius);
+    font-size: 0.9rem;
+    transition: background 0.3s ease;
+    white-space: nowrap;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.download-btn:hover {
+    background: #7a8a7c;
+    color: white;
+}
+
+.no-files {
+    text-align: center;
+    padding: 80px;
+    background: var(--color-light-gray);
+    border-radius: var(--border-radius);
+}
+
+.no-files i {
+    font-size: 3rem;
+    color: var(--color-green);
+    margin-bottom: 15px;
+}
+
+/* Адаптация */
+@media (max-width: 768px) {
+    .charity-section {
+        padding-top: 100px;
+    }
+    
+    .files-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .file-card {
+        flex-direction: column;
+        text-align: center;
+    }
+    
+    .file-meta {
+        justify-content: center;
+    }
+}
+
+@media (max-width: 480px) {
+    .charity-description {
+        font-size: 1rem;
+        padding: 0 15px;
+    }
+    
+    .download-btn {
+        width: 100%;
+        justify-content: center;
+    }
+}

@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+
+{% block title %}Благотворительность | Мошурова Полина{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/charity.css') }}">
+{% endblock %}
+
+{% block content %}
+<section class="charity-section">
+    <div class="container">
+        <div class="charity-header">
+            <h1 class="page-title">Благотворительность</h1>
+            <p class="page-subtitle">Искусство во благо</p>
+        </div>
+
+        <div class="charity-description">
+            <p>Я верю, что искусство может менять жизнь к лучшему. Часть средств от продажи картин направляется на благотворительность. Здесь вы можете скачать документы, подтверждающие мою благотворительную деятельность.</p>
+        </div>
+
+        {% if files %}
+        <div class="charity-files">
+            <h2>Документы и материалы</h2>
+            <div class="files-grid">
+                {% for file in files %}
+                <div class="file-card">
+                    <div class="file-icon">
+                        {% if file.file_type == 'pdf' %}
+                        <i class="fas fa-file-pdf"></i>
+                        {% else %}
+                        <i class="fas fa-file-image"></i>
+                        {% endif %}
+                    </div>
+                    <div class="file-info">
+                        <h3>{{ file.title }}</h3>
+                        {% if file.description %}<p>{{ file.description }}</p>{% endif %}
+                        <div class="file-meta">
+                            <span><i class="far fa-calendar-alt"></i> {{ file.upload_date.strftime('%d.%m.%Y') }}</span>
+                            <span><i class="fas fa-download"></i> {{ file.download_count }} скачиваний</span>
+                        </div>
+                    </div>
+                    <a href="{{ url_for('public.download_charity_file', file_id=file.id) }}" class="download-btn">
+                        <i class="fas fa-download"></i> Скачать
+                    </a>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+        {% else %}
+        <div class="no-files">
+            <i class="fas fa-heart"></i>
+            <p>Материалы будут добавлены скоро</p>
+        </div>
+        {% endif %}
+    </div>
+</section>
+{% endblock %}

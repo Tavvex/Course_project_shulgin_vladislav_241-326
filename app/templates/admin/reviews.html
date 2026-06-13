@@ -1,0 +1,40 @@
+{% extends "admin/base_admin.html" %}
+
+{% block admin_title %}Управление отзывами{% endblock %}
+
+{% block admin_content %}
+<table class="admin-table">
+    <thead>
+        <tr>
+            <th>ID</th><th>Автор</th><th>Текст</th><th>Оценка</th><th>Дата</th><th>Статус</th><th>Действия</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for review in reviews %}
+        <tr>
+            <td>{{ review.id }}</td>
+            <td>{{ review.author }}</td>
+            <td>{{ review.text[:100] }}{% if review.text|length > 100 %}…{% endif %}</td>
+            <td>{{ review.rating }} ★</td>
+            <td>{{ review.date.strftime('%d.%m.%Y') }}</td>
+            <td>
+                {% if review.is_approved %}
+                <span style="color:green;">✓ Одобрен</span>
+                {% else %}
+                <span style="color:orange;">⏳ На модерации</span>
+                {% endif %}
+            </td>
+            <td>
+                {% if not review.is_approved %}
+                <a href="{{ url_for('admin.review_approve', review_id=review.id) }}" class="btn btn-primary btn-sm">Одобрить</a>
+                {% endif %}
+                <a href="{{ url_for('admin.review_delete', review_id=review.id) }}" onclick="return confirm('Удалить отзыв?')" class="btn btn-danger btn-sm">Удалить</a>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% if not reviews %}
+<p style="text-align:center;padding:40px;">Нет отзывов</p>
+{% endif %}
+{% endblock %}

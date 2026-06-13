@@ -1,0 +1,43 @@
+{% extends "admin/base_admin.html" %}
+
+{% block admin_title %}Дашборд{% endblock %}
+
+{% block admin_content %}
+<div class="stats-grid">
+    <div class="stat-card">
+        <i class="fas fa-palette" style="font-size: 2rem; color: #8a9b8c;"></i>
+        <h3>{{ works_count }}</h3>
+        <p>Всего работ</p>
+    </div>
+    <div class="stat-card">
+        <i class="fas fa-star" style="font-size: 2rem; color: #8a9b8c;"></i>
+        <h3>{{ reviews_count }}</h3>
+        <p>Всего отзывов</p>
+    </div>
+    <div class="stat-card">
+        <i class="fas fa-clock" style="font-size: 2rem; color: #8a9b8c;"></i>
+        <h3>{{ reviews_pending }}</h3>
+        <p>На модерации</p>
+    </div>
+    <div class="stat-card">
+        <i class="fas fa-heart" style="font-size: 2rem; color: #8a9b8c;"></i>
+        <h3>{{ charity_count }}</h3>
+        <p>Благотворительных файлов</p>
+    </div>
+    <div class="stat-card">
+        <i class="fas fa-users" style="font-size: 2rem; color: #8a9b8c;"></i>
+        <h3>{{ users_count }}</h3>
+        <p>Пользователей</p>
+    </div>
+</div>
+
+<div style="margin-top: 30px;">
+    <h3>Быстрые действия</h3>
+    <div style="display: flex; gap: 15px; margin-top: 15px; flex-wrap: wrap;">
+        <a href="{{ url_for('admin.works') }}" class="btn btn-primary">Добавить работу</a>
+        <a href="{{ url_for('admin.reviews') }}" class="btn btn-primary">Управление отзывами</a>
+        <a href="{{ url_for('admin.charity') }}" class="btn btn-primary">Загрузить файл</a>
+        <a href="{{ url_for('admin.users') }}" class="btn btn-primary">Пользователи</a>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,277 @@
+/* Стили для страницы услуг и цен */
+
+/* Важно: отступ для фиксированного хедера */
+.shop-section {
+    padding-top: 120px; /* Фиксированный отступ, чтобы не перекрывалось хедером */
+}
+
+.shop-header {
+    text-align: center;
+    margin-bottom: 50px;
+}
+
+.page-title {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+    color: var(--color-dark-gray);
+}
+
+.page-subtitle {
+    color: var(--color-gray);
+    font-size: 1.1rem;
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+/* Сетка с карточками услуг */
+.pricing-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 40px;
+    margin-bottom: 60px;
+}
+
+.pricing-card {
+    background: var(--color-white);
+    border-radius: var(--border-radius);
+    overflow: hidden;
+    box-shadow: 0 4px 20px var(--shadow-color);
+    transition: transform 0.3s ease;
+}
+
+.pricing-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 30px rgba(138, 155, 140, 0.2);
+}
+
+.pricing-image {
+    height: 260px;
+    overflow: hidden;
+}
+
+.pricing-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.4s ease;
+}
+
+.pricing-card:hover .pricing-image img {
+    transform: scale(1.05);
+}
+
+.pricing-info {
+    padding: 25px;
+}
+
+.pricing-info h3 {
+    font-size: 1.5rem;
+    margin-bottom: 10px;
+    color: var(--color-dark-gray);
+}
+
+.pricing-desc {
+    color: var(--color-gray);
+    margin-bottom: 20px;
+    line-height: 1.5;
+}
+
+.pricing-features {
+    list-style: none;
+    margin: 20px 0;
+}
+
+.pricing-features li {
+    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    color: var(--color-dark-gray);
+    font-size: 0.95rem;
+}
+
+.pricing-features i {
+    color: var(--color-green);
+    width: 20px;
+    font-size: 1rem;
+}
+
+.pricing-price {
+    font-size: 1.8rem;
+    font-weight: 600;
+    color: var(--color-green);
+    margin: 20px 0;
+}
+
+/* Таблица цен */
+.price-table-container {
+    background: var(--color-light-gray);
+    padding: 40px;
+    border-radius: var(--border-radius);
+    margin-bottom: 40px;
+}
+
+.price-table-container h2 {
+    text-align: center;
+    margin-bottom: 10px;
+    font-size: 1.8rem;
+}
+
+.price-table-note {
+    text-align: center;
+    color: var(--color-gray);
+    font-size: 0.85rem;
+    margin-bottom: 30px;
+}
+
+.price-table {
+    max-width: 650px;
+    margin: 0 auto;
+    background: var(--color-white);
+    border-radius: var(--border-radius);
+    overflow: hidden;
+    box-shadow: 0 2px 10px var(--shadow-color);
+}
+
+.price-row, .price-row-header  {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    border-bottom: 1px solid var(--border-color);
+}
+
+.price-row:last-child {
+    border-bottom: none;
+}
+
+.price-row-header {
+    background: var(--color-green);
+}
+
+.price-row-header .price-cell {
+    color: white;
+    font-weight: 600;
+}
+
+.price-cell  {
+    padding: 14px 10px;
+    text-align: center;
+    color: var(--color-dark-gray);
+}
+
+/* Информационный блок */
+.shop-info-box {
+    background-color: var(--color-light-pink);
+    padding: 35px;
+    border-radius: var(--border-radius);
+    margin-top: 20px;
+    border-left: 4px solid var(--color-green);
+}
+
+.shop-info-box h3 {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 20px;
+    color: var(--color-dark-gray);
+    font-size: 1.3rem;
+}
+
+.shop-info-box h3 i {
+    color: var(--color-green);
+}
+
+.shop-info-box ul {
+    margin-top: 10px;
+    padding-left: 20px;
+}
+
+.shop-info-box li {
+    margin-bottom: 12px;
+    color: var(--color-dark-gray);
+    line-height: 1.5;
+    position: relative;
+    padding-left: 20px;
+}
+
+.shop-info-box li::before {
+    content: "•";
+    color: var(--color-green);
+    position: absolute;
+    left: 0;
+    font-size: 1.2rem;
+}
+
+/* Контакты в футере */
+.contact-note {
+    margin-top: 20px;
+    padding-top: 20px;
+    border-top: 1px solid var(--border-color);
+}
+
+.contact-note i {
+    color: var(--color-green);
+    margin-right: 8px;
+}
+
+.contact-note p {
+    font-size: 0.9rem;
+    color: var(--color-gray);
+    margin-bottom: 0;
+}
+
+/* Адаптация для планшетов */
+@media (max-width: 768px) {
+    .shop-section {
+        padding-top: 100px;
+    }
+    
+    .pricing-grid {
+        grid-template-columns: 1fr;
+        gap: 30px;
+    }
+    
+    .pricing-image {
+        height: 220px;
+    }
+    
+    .price-table-container {
+        padding: 25px 15px;
+    }
+    
+    .price-cell {
+        padding: 12px 8px;
+        font-size: 0.85rem;
+    }
+    
+    .shop-info-box {
+        padding: 25px;
+    }
+    
+    .shop-info-box h3 {
+        font-size: 1.2rem;
+    }
+}
+
+/* Адаптация для мобильных */
+@media (max-width: 480px) {
+    .shop-section {
+        padding-top: 80px;
+    }
+    
+    .price-cell {
+        padding: 10px 5px;
+        font-size: 0.75rem;
+    }
+    
+    .pricing-price {
+        font-size: 1.4rem;
+    }
+    
+    .pricing-info h3 {
+        font-size: 1.3rem;
+    }
+    
+    .price-table-container h2 {
+        font-size: 1.4rem;
+    }
+}

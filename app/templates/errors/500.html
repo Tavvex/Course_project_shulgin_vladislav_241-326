@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+
+{% block title %}Ошибка сервера | Мошурова Полина{% endblock %}
+
+{% block content %}
+<section style="padding: 120px 0; text-align: center;">
+    <div class="container">
+        <h1 style="font-size: 6rem; color: #8a9b8c; margin-bottom: 0;">500</h1>
+        <h2 style="color: #333; margin-bottom: 16px;">Внутренняя ошибка сервера</h2>
+        <p style="color: #666; margin-bottom: 32px;">Что-то пошло не так. Мы уже работаем над исправлением.</p>
+        <a href="{{ url_for('public.index') }}" class="btn btn-primary">На главную</a>
+    </div>
+</section>
+{% endblock %}

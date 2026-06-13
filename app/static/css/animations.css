@@ -1,0 +1,42 @@
+/* Упрощенные анимации для сайта художника */
+
+/* Базовая анимация для элементов при наведении */
+.work-card:hover,
+.portfolio-card:hover {
+    transform: translateY(-5px);
+}
+
+/* Анимация для изображений в карточках */
+.work-image img,
+.portfolio-image img {
+    transition: transform 0.3s ease;
+}
+
+.work-card:hover img,
+.portfolio-card:hover img {
+    transform: scale(1.05);
+}
+
+/* Анимация для кнопок и ссылок */
+.btn,
+.filter-btn,
+.nav-menu a,
+.social-links a {
+    transition: all 0.2s ease;
+}
+
+/* Анимация для оверлея на карточках */
+.work-overlay,
+.portfolio-overlay {
+    transition: opacity 0.3s ease;
+}
+
+/* Анимация для модального окна */
+.modal-overlay {
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+/* Анимация для кнопок при клике */
+.btn:active {
+    transform: scale(0.98);
+}
