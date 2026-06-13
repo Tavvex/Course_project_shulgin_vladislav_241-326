@@ -7,27 +7,26 @@ __pycache__/
 env/
 venv/
 .venv/
+
+# Переменные окружения (секреты)
 .env
 
-# Database
-*.db
-*.sqlite
-*.sqlite3
+# База данных
 app/database/
 
-# Logs
-*.log
+# Логи
 app/logs/
 
-# IDE
+# Загруженные пользователями файлы
+app/static/uploads/charity/
+
+# IDE / редакторы
 .vscode/
 .idea/
+.claude/
 *.swp
 *.swo
 
 # OS
 .DS_Store
 Thumbs.db
-
-# Uploads (пользовательский контент)
-app/static/uploads/charity/
